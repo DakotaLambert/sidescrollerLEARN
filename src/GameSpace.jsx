@@ -62,13 +62,14 @@ const GameSpace = (props) => {
         levelName: "moon_0",
         backgroundImage: moonImage,
         movementValues: {
-        gravity: 0.43,
-        yVJump: 20,
-        xVFriction: 0.9,
-        yVFriction: 0.9,
-        xV: 1,
-      }
-    }];
+          gravity: 0.43,
+          yVJump: 20,
+          xVFriction: 0.9,
+          yVFriction: 0.9,
+          xV: 1,
+        },
+      },
+    ];
 
     // Define the game controller to define movement
     const gameController = {
@@ -78,19 +79,10 @@ const GameSpace = (props) => {
       keyListener: function (event) {
         const keyState = event.type === "keydown" || false;
 
-        switch (event.keyCode) {
-          case 37: // left key
-            gameController.left = keyState;
-            break;
-          case 38: // up key
-            gameController.up = keyState;
-            break;
-          case 39: // right key
-            gameController.right = keyState;
-            break;
-          default:
-            break;
-        }
+        // Left key, Up Key, Right Key
+        gameController.left  = event.keyCode === 37 ? keyState : gameController.left;
+        gameController.up    = event.keyCode === 38 ? keyState : gameController.up;
+        gameController.right = event.keyCode === 39 ? keyState : gameController.right;
       },
     };
 
@@ -143,7 +135,11 @@ const GameSpace = (props) => {
       }
 
       // if playerEntity is going off the left of the screen
-      if (playerEntity.x < -32) {
+      if (gameState.screen === 0 && playerEntity.x < 0) {
+        playerEntity.x = 0;
+        playerEntity.xV = 0;
+      } 
+      else if (playerEntity.x < -32) {
         playerEntity.x = gameWidth;
         gameState.screen--;
         console.log(`Screen: ${gameState.screen}`);
@@ -158,7 +154,13 @@ const GameSpace = (props) => {
       // ctx.fillStyle = "#202020";
       // ctx.fillRect(0, 0, gameWidth, gameHeight); // x, y, width, height
 
-      ctx.drawImage(levels[gameState.screen].backgroundImage, 0, 0, gameWidth, gameHeight);
+      ctx.drawImage(
+        levels[gameState.screen].backgroundImage,
+        0,
+        0,
+        gameWidth,
+        gameHeight
+      );
 
       // Fill the player space with a nice green
       ctx.fillStyle = "#1EB980";
