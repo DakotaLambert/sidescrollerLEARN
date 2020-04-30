@@ -27,46 +27,50 @@ const GameSpace = (props) => {
     const levels = [
       {
         levelName: "earth_0",
+        levelText: "A long time ago... the earth was peaceful",
         backgroundImage: mountainsImage,
         movementValues: {
           gravity: 1.5,
           yVJump: 20,
           xVFriction: 0.9,
           yVFriction: 0.9,
-          xV: 1,
+          xV: 0.8,
         },
       },
       {
         levelName: "earth_1",
+        levelText: "Everything was green and the air was clean",
         backgroundImage: mountainsImage,
         movementValues: {
           gravity: 1.5,
           yVJump: 20,
           xVFriction: 0.9,
           yVFriction: 0.9,
-          xV: 1,
+          xV: 0.8,
         },
       },
       {
         levelName: "earth_2",
+        levelText: "And the Earth was its own master",
         backgroundImage: mountainsImage,
         movementValues: {
           gravity: 1.5,
           yVJump: 20,
           xVFriction: 0.9,
           yVFriction: 0.9,
-          xV: 1,
+          xV: 0.8,
         },
       },
       {
         levelName: "moon_0",
+        levelText: "It held pure indifference to the ageless void",
         backgroundImage: moonImage,
         movementValues: {
           gravity: 0.43,
           yVJump: 20,
           xVFriction: 0.9,
           yVFriction: 0.9,
-          xV: 1,
+          xV: 0.5,
         },
       },
     ];
@@ -80,9 +84,11 @@ const GameSpace = (props) => {
         const keyState = event.type === "keydown" || false;
 
         // Left key, Up Key, Right Key
-        gameController.left  = event.keyCode === 37 ? keyState : gameController.left;
-        gameController.up    = event.keyCode === 38 ? keyState : gameController.up;
-        gameController.right = event.keyCode === 39 ? keyState : gameController.right;
+        gameController.left =
+          event.keyCode === 37 ? keyState : gameController.left;
+        gameController.up = event.keyCode === 38 ? keyState : gameController.up;
+        gameController.right =
+          event.keyCode === 39 ? keyState : gameController.right;
       },
     };
 
@@ -138,11 +144,16 @@ const GameSpace = (props) => {
       if (gameState.screen === 0 && playerEntity.x < 0) {
         playerEntity.x = 0;
         playerEntity.xV = 0;
-      } 
-      else if (playerEntity.x < -32) {
+      } else if (playerEntity.x < -32) {
         playerEntity.x = gameWidth;
         gameState.screen--;
         console.log(`Screen: ${gameState.screen}`);
+      } else if (
+        gameState.screen === levels.length - 1 &&
+        playerEntity.x > gameWidth - 32
+      ) {
+        playerEntity.x = gameWidth - 32;
+        playerEntity.xV = 0;
       } else if (playerEntity.x > gameWidth) {
         // if playerEntity goes past right boundary
         playerEntity.x = -32;
@@ -180,6 +191,10 @@ const GameSpace = (props) => {
       ctx.moveTo(0, gameHeight - floorLevel);
       ctx.lineTo(gameWidth, gameHeight - floorLevel);
       ctx.stroke();
+
+      // Draw level text on screen
+      ctx.font = "24px Arial";
+      ctx.fillText(levels[gameState.screen].levelText, 10, 50);
 
       // call update when the browser is ready to draw again
       window.requestAnimationFrame(eventLoop);
