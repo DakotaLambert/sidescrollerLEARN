@@ -82,13 +82,14 @@ const GameSpace = (props) => {
       up: false,
       keyListener: function (event) {
         const keyState = event.type === "keydown" || false;
-
+        const { keyCode } = event;
         // Left key, Up Key, Right Key
         gameController.left =
-          event.keyCode === 37 ? keyState : gameController.left;
-        gameController.up = event.keyCode === 38 ? keyState : gameController.up;
+          keyCode === 37 || keyCode === 65 ? keyState : gameController.left;
+        gameController.up =
+          keyCode === 38 || keyCode === 87 ? keyState : gameController.up;
         gameController.right =
-          event.keyCode === 39 ? keyState : gameController.right;
+          keyCode === 39 || keyCode === 68 ? keyState : gameController.right;
       },
     };
 
