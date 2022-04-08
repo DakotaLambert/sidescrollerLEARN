@@ -52,7 +52,7 @@ const levels = [
     levelText: "And was quite content with its place in the vast universe",
     backgroundImage: "universe",
     movementValues: {
-      gravity: 0.32,
+      gravity: 0,
       yVJump: 15,
       xVFriction: 0.9,
       yVFriction: 0.9999,

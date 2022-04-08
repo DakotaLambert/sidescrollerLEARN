@@ -1,29 +1,33 @@
 import React, { useEffect } from "react";
 import Entity from "./Entities";
 import levels from "./Levels";
+
 //This is where Graham learns me some knawledge
 const GameSpace = (props) => {
+  //Everything is driven off of this useEffect.
   useEffect(() => {
     const ctx = document.querySelector("canvas").getContext("2d");
+    //Setting up the game "box"/evironment 
     const gameHeight = 720;
     const gameWidth = 1024;
     const floorLevel = 64;
 
+    //Initializing html canvas height and width
     ctx.canvas.height = gameHeight;
     ctx.canvas.width = gameWidth;
 
-    // Define the player entity
+    //Creating an instance of the Entity class
     const player = new Entity({
       height: 45,
-      jumping: true,
       width: 30,
+      jumping: true,
       x: 144,
       xV: 0,
       y: gameHeight - floorLevel,
       yV: 0,
     });
 
-    // Pull assets off of the page
+    // Pull assets from App.js
     const assets = {
       mountains: document.getElementById("mountains"),
       moon: document.getElementById("moon"),
@@ -131,7 +135,7 @@ const GameSpace = (props) => {
         gameHeight
       );
 
-      // Render the palyer on screen
+      // Render the player on screen
       player.render(ctx, "#1EB980");
 
       // Create floor
